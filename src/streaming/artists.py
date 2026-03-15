@@ -7,8 +7,8 @@ class Artist:
         self.genre = genre
         self.tracks = tracks
     
-    def add_track(self, track: Track):
+    def add_track(self, track: Track) -> None:
         self.tracks.append(track)
     
-    def track_count(self):
+    def track_count(self) -> int:
         return len(self.tracks)
