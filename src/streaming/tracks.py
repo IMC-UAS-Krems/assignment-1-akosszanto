@@ -1,6 +1,6 @@
 from datetime import date
 from .artists import Artist
-from .albums import Album
+
 class Track:
     def __init__(self, track_id: str, title: str, duration_seconds: int, genre: str):
         self.track_id = track_id
@@ -12,12 +12,12 @@ class Track:
         return self.duration_seconds / 60.0
     
 class Song(Track):
-    def __init__(self, track_id: str, title: str, duration_seconds: int, genre: str, artist: Artist):
+    def __init__(self, track_id: str, title: str, duration_seconds: int, genre: str, artist: 'Artist'):
         Track.__init__(self, track_id, title, duration_seconds, genre)
         self.artist = artist
 
 class Podcast(Track):
-    def __init__(self, track_id: str, title: str, duration_seconds: int, genre: str, host: str, description: str):
+    def __init__(self, track_id: str, title: str, duration_seconds: int, genre: str, host: str, description: str = ""):
         Track.__init__(self, track_id, title, duration_seconds, genre)
         self.host = host
         self.description = description
@@ -29,23 +29,23 @@ class AudiobookTrack(Track):
         self.narrator = narrator
 
 class AlbumTrack(Song):
-    def __init__(self, track_id: str, title: str, duration_seconds: int, genre: str, artist: Artist, track_number: int, album: Album):
+    def __init__(self, track_id: str, title: str, duration_seconds: int, genre: str, artist: 'Artist', track_number: int):
         Song.__init__(self, track_id, title, duration_seconds, genre, artist)
         self.track_number = track_number
-        self.album = album
+        self.album = None
 
 class SingleRelease(Song):
-    def __init__(self, track_id: str, title: str, duration_seconds: int, genre: str, artist: Artist, release_date: date):
+    def __init__(self, track_id: str, title: str, duration_seconds: int, genre: str, artist: 'Artist', release_date: date):
         Song.__init__(self, track_id, title, duration_seconds, genre, artist)
         self.release_date = release_date
 
 class NarrativeEpisode(Podcast):
-    def __init__(self, track_id: str, title: str, duration_seconds: int, genre: str, host: str, description: str, season: int, episode_number: int):
+    def __init__(self, track_id: str, title: str, duration_seconds: int, genre: str, host: str, season: int, episode_number: int, description: str = ""):
         Podcast.__init__(self, track_id, title, duration_seconds, genre, host, description)
         self.season = season
         self.episode_number = episode_number
   
 class InterviewEpisode(Podcast):
-    def __init__(self, track_id: str, title: str, duration_seconds: int, genre: str, host: str, description: str, guest: str):
+    def __init__(self, track_id: str, title: str, duration_seconds: int, genre: str, host: str, guest: str, description: str = ""):
         Podcast.__init__(self, track_id, title, duration_seconds, genre, host, description)
         self.guest = guest

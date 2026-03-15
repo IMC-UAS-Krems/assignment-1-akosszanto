@@ -4,6 +4,7 @@ from .artists import Artist
 from .users import User
 from .playlists import Playlist
 from .sessions import ListeningSession
+import datetime
 
 
 class StreamingPlatform:
@@ -51,3 +52,12 @@ class StreamingPlatform:
     
     def all_tracks(self) -> list[Track]:
       return list(self.catalogue.values())
+
+#Query Methods
+    def total_listening_time_minutes(self, start: datetime.time, end: datetime.time) -> float:
+        total_seconds = 0
+        for session in self._sessions:
+            session_time = session.timestamp.time()
+            if start <= session_time <= end:
+                total_seconds += session.duration_listened_seconds
+        return total_seconds / 60.0
