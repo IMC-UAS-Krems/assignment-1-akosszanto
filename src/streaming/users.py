@@ -29,9 +29,13 @@ class PremiumUser(User):
         self.subscription_start = subscription_start
 
 class FamilyAccountUser(User):
-    def __init__(self, user_id: str, name: str, age: int, sub_users: list['FamilyMember']):
+    def __init__(self, user_id: str, name: str, age: int, sub_users: list['FamilyMember']| None = None):
         User.__init__(self, user_id, name, age)
-        self.sub_users = sub_users
+        if sub_users is None:
+            self.sub_users = []
+        else:
+            self.sub_users = sub_users
+        
 
     def add_sub_user(self, sub_user: 'FamilyMember') -> None:
         self.sub_users.append(sub_user)

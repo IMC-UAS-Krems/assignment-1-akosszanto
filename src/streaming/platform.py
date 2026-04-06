@@ -1,21 +1,39 @@
 from .tracks import Track
 from .albums import Album
 from .artists import Artist
-from .users import User
+from .users import PremiumUser, User
 from .playlists import Playlist
 from .sessions import ListeningSession
 import datetime
 
 
 class StreamingPlatform:
-    def __init__(self, name: str, catalogue: dict[str, Track], users: dict[str, User], artists: dict[str, Artist], albums: dict[str, Album], playlists: dict[str, Playlist], _sessions: list[ListeningSession]):
+    def __init__(self, name: str, catalogue: dict[str, Track] | None = None, users: dict[str, User] | None = None, artists: dict[str, Artist] | None = None, albums: dict[str, Album] | None = None, playlists: dict[str, Playlist] | None = None, _sessions: list[ListeningSession] | None = None):
         self.name = name
-        self.catalogue = catalogue
-        self.users = users
-        self.artists = artists
-        self.albums = albums
-        self.playlists = playlists
-        self._sessions = _sessions
+        if catalogue is None:
+            self.catalogue = {}
+        else:
+          self.catalogue = catalogue
+        if users is None:
+            self.users = {}
+        else:
+          self.users = users
+        if artists is None:
+            self.artists = {}
+        else:
+          self.artists = artists
+        if albums is None:
+            self.albums = {}
+        else:
+          self.albums = albums
+        if playlists is None:
+            self.playlists = {}
+        else:
+          self.playlists = playlists
+        if _sessions is None:
+            self._sessions = []
+        else:
+          self._sessions = _sessions
     
     def add_track(self, track: Track) -> None:
       self.catalogue[track.track_id] = track
@@ -53,7 +71,6 @@ class StreamingPlatform:
     def all_tracks(self) -> list[Track]:
       return list(self.catalogue.values())
 
-#Query Methods
     def total_listening_time_minutes(self, start: datetime.time, end: datetime.time) -> float:
         total_seconds = 0
         for session in self._sessions:
@@ -61,3 +78,7 @@ class StreamingPlatform:
             if start <= session_time <= end:
                 total_seconds += session.duration_listened_seconds
         return total_seconds / 60.0
+    
+    def avg_unique_tracks_per_premium_user(self, days: int = 30) -> float:
+      return 0.0
+
