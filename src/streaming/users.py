@@ -1,5 +1,9 @@
+from __future__ import annotations
 from datetime import date
-from .sessions import ListeningSession
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .sessions import ListeningSession
 
 class User:
     def __init__(self, user_id: str, name: str, age: int):
@@ -25,12 +29,12 @@ class FreeUser(User):
 
 class PremiumUser(User):
     def __init__(self, user_id: str, name: str, age: int, subscription_start: date):
-        User.__init__(self, user_id, name, age)
+        super().__init__(user_id, name, age)
         self.subscription_start = subscription_start
 
 class FamilyAccountUser(User):
     def __init__(self, user_id: str, name: str, age: int, sub_users: list['FamilyMember']| None = None):
-        User.__init__(self, user_id, name, age)
+        super().__init__(user_id, name, age)
         if sub_users is None:
             self.sub_users = []
         else:
@@ -45,5 +49,5 @@ class FamilyAccountUser(User):
 
 class FamilyMember(User):
     def __init__(self, user_id: str, name: str, age: int, parent: FamilyAccountUser):
-        User.__init__(self, user_id, name, age)
+        super().__init__(user_id, name, age)
         self.parent = parent

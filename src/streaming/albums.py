@@ -1,17 +1,20 @@
-from .artists import Artist
-from .tracks import AlbumTrack
+from streaming.artists import Artist
+from streaming.tracks import AlbumTrack
 
 class Album:
-    def __init__(self, album_id: str, title: str, artist: Artist, release_year: int):
+    def __init__(self, album_id: str, title: str, artist: Artist, release_year: int, tracks: list[AlbumTrack] | None = None):
         self.album_id = album_id
         self.title = title
         self.artist = artist
         self.release_year = release_year
-        self.tracks = list[AlbumTrack]()
-
+        if tracks is not None:
+            self.tracks: list[AlbumTrack] = tracks
+        else:
+            self.tracks: list[AlbumTrack] = []
+    
     def add_track(self, track: AlbumTrack) -> None:
         self.tracks.append(track)
-    
+
     def track_ids(self) -> set[str]:
         return {track.track_id for track in self.tracks}
     

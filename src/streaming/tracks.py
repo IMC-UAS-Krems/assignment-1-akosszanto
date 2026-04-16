@@ -1,8 +1,11 @@
-from datetime import date
-
-from streaming.albums import Album
-from .artists import Artist
+from __future__ import annotations
 from abc import ABC
+from datetime import date
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from streaming.artists import Artist
+    from streaming.albums import Album
 
 class Track(ABC):
     def __init__(self, track_id: str, title: str, duration_seconds: int, genre: str):
@@ -16,39 +19,39 @@ class Track(ABC):
     
 class Song(Track):
     def __init__(self, track_id: str, title: str, duration_seconds: int, genre: str, artist: Artist):
-        Track.__init__(self, track_id, title, duration_seconds, genre)
+        super().__init__(track_id, title, duration_seconds, genre)
         self.artist = artist
 
 class Podcast(Track):
     def __init__(self, track_id: str, title: str, duration_seconds: int, genre: str, host: str, description: str = ""):
-        Track.__init__(self, track_id, title, duration_seconds, genre)
+        super().__init__(track_id, title, duration_seconds, genre)
         self.host = host
         self.description = description
 
 class AudiobookTrack(Track):
     def __init__(self, track_id: str, title: str, duration_seconds: int, genre: str, author: str, narrator: str):
-        Track.__init__(self, track_id, title, duration_seconds, genre)
+        super().__init__(track_id, title, duration_seconds, genre)
         self.author = author
         self.narrator = narrator
 
 class AlbumTrack(Song):
     def __init__(self, track_id: str, title: str, duration_seconds: int, genre: str, artist: Artist, track_number: int, album: Album | None = None):
-        Song.__init__(self, track_id, title, duration_seconds, genre, artist)
+        super().__init__(track_id, title, duration_seconds, genre, artist)
         self.track_number = track_number
         self.album = album
 
 class SingleRelease(Song):
     def __init__(self, track_id: str, title: str, duration_seconds: int, genre: str, artist: Artist, release_date: date):
-        Song.__init__(self, track_id, title, duration_seconds, genre, artist)
+        super().__init__(track_id, title, duration_seconds, genre, artist)
         self.release_date = release_date
 
 class NarrativeEpisode(Podcast):
     def __init__(self, track_id: str, title: str, duration_seconds: int, genre: str, host: str, season: int, episode_number: int, description: str = ""):
-        Podcast.__init__(self, track_id, title, duration_seconds, genre, host, description)
+        super().__init__(track_id, title, duration_seconds, genre, host, description)
         self.season = season
         self.episode_number = episode_number
   
 class InterviewEpisode(Podcast):
     def __init__(self, track_id: str, title: str, duration_seconds: int, genre: str, host: str, guest: str, description: str = ""):
-        Podcast.__init__(self, track_id, title, duration_seconds, genre, host, description)
+        super().__init__(track_id, title, duration_seconds, genre, host, description)
         self.guest = guest

@@ -20,7 +20,7 @@ class Playlist:
 
 class CollaborativePlaylist(Playlist):
     def __init__(self, playlist_id: str, name: str, owner: User):
-        Playlist.__init__(self, playlist_id, name, owner)
+        super().__init__(playlist_id, name, owner)
         self.contributors: list[User] = [owner]
     
     def add_contributor(self, user: User) -> None:
