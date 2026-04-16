@@ -15,7 +15,7 @@ class Track(ABC):
         return self.duration_seconds / 60.0
     
 class Song(Track):
-    def __init__(self, track_id: str, title: str, duration_seconds: int, genre: str, artist: 'Artist'):
+    def __init__(self, track_id: str, title: str, duration_seconds: int, genre: str, artist: Artist):
         Track.__init__(self, track_id, title, duration_seconds, genre)
         self.artist = artist
 
